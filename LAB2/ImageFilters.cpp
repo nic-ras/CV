@@ -1,7 +1,7 @@
 #include "ImageFilters.h"
 
 // Min filter
-int min( &original, &output, int k ) 
+int min_fil( &original, &output, int k ) 
 {
     if(*original.empty() || ( (int)(k) == k && k <= 0 )){
         std::cout << "Parametri non corretti\n";
@@ -16,7 +16,7 @@ int min( &original, &output, int k )
 }
 
 // Max filter
-cv::Mat min( &original, &output, int k )
+cv::Mat min_fil( &original, &output, int k )
 {
     if(*original.empty() || ( (int)(k) == k && k <= 0 )){
         std::cout << "Parametri non corretti\n";

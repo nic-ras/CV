@@ -15,8 +15,8 @@ int main()
 
     cv::imwrite("Garden_grayscale.jpg", img_gray);
 
-    cv::Mat min_fil = ImageFilters::min(img_gray, 5);
-    cv::Mat max_fil = ImageFilters::max(img_gray, 5);
+    cv::Mat min_fil = ImageFilters::min_fil(img_gray, 5);
+    cv::Mat max_fil = ImageFilters::max_fil(img_gray, 5);
 
     cv::namedWindow("Garden grayscale", cv::WINDOW_AUTOSIZE);
     cv::imshow("Garden grayscale", img_gray);

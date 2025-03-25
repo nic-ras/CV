@@ -3,10 +3,10 @@
 #include <iostream>
 
 // Min filter
-cv::Mat min(cv::Mat original, int k);
+cv::Mat min_fil( &original, &output, int k );
 
 // Max filter
-cv::Mat min(cv::Mat original, int k);
+cv::Mat max_fil( &original, &output, int k );
 
     
     
