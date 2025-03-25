@@ -3,12 +3,16 @@
 #include <iostream>
 
 // Min filter
-cv::Mat min_fil( &original, &output, int k );
+int min_fil( cv::Mat& original, cv::Mat& output, int k );
 
 // Max filter
-cv::Mat max_fil( &original, &output, int k );
+int max_fil( cv::Mat& original, cv::Mat& output, int k );
 
-    
+// Median filter
+int med_fil( cv::Mat& original, cv::Mat& output, int k );
+
+// Gaussian filter
+int gau_fil( cv::Mat& original, cv::Mat& output, int k );
     
 
  

@@ -2,7 +2,7 @@
 
 int main()
 {
-    cv::Mat img = cv::imread("/home/raseranico/Desktop/CV/LAB2/Garden.jpg");
+    cv::Mat img = cv::imread("/home/roaming/rasenic69592/Desktop/CV/LAB2/Garden.jpg");
 
     if(img.empty())
     {
@@ -15,11 +15,20 @@ int main()
 
     cv::imwrite("Garden_grayscale.jpg", img_gray);
 
-    cv::Mat min_fil = ImageFilters::min_fil(img_gray, 5);
-    cv::Mat max_fil = ImageFilters::max_fil(img_gray, 5);
+    cv::Mat min_img;
+    min_fil(img_gray, min_img, 5);
+    cv::Mat max_img;
+    max_fil(img_gray, max_img, 5);
 
-    cv::namedWindow("Garden grayscale", cv::WINDOW_AUTOSIZE);
-    cv::imshow("Garden grayscale", img_gray);
+    cv::namedWindow("Grayscale original image", cv::WINDOW_NORMAL);
+    cv::imshow("Grayscale original image", img_gray);
+
+    cv::namedWindow("Min filter", cv::WINDOW_NORMAL);
+    cv::imshow("Min filter", min_img);
+
+    cv::namedWindow("Max filter", cv::WINDOW_NORMAL);
+    cv::imshow("Max filter", max_img);
+    
     
     cv::waitKey(0);
 
