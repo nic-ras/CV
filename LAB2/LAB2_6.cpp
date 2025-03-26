@@ -8,7 +8,7 @@ int main()
     float range[] = { 0, 256 };
     const float* histRange[] = { range };
 
-    cv::Mat img = cv::imread("/home/roaming/rasenic69592/Desktop/CV/LAB2/Astronaut_original.png");
+    cv::Mat img = cv::imread("/home/roaming/rasenic69592/Desktop/CV/LAB2/Garden.jpg");
 
     if(img.empty())
     {
@@ -21,11 +21,10 @@ int main()
 
     cv::Mat hist;
     cv::calcHist( &img_gray, 1, 0, cv::Mat(), hist, 1, histSize, histRange);
-
     int hist_w = 512, hist_h = 400; 
     int bin_w = cvRound((double)hist_w / bins);
-    cv::Mat histImage( hist_h, hist_w, CV_8UC3, cv::Scalar( 0,0,0) );
 
+    cv::Mat histImage( hist_h, hist_w, CV_8UC3, cv::Scalar( 0,0,0) );
     cv::normalize(hist, hist, 0, histImage.rows, cv::NORM_MINMAX);
 
     for (int i = 1; i < bins; i++) {
@@ -35,11 +34,33 @@ int main()
                  cv::Scalar(255, 255, 255), 2, 8, 0);
     }
 
+    cv::Mat img_eq;
+    cv::equalizeHist( img_gray, img_eq );
+
+    cv::Mat eq_hist;
+    cv::calcHist( &img_eq, 1, 0, cv::Mat(), eq_hist, 1, histSize, histRange);
+
+    cv::Mat eq_histImage( hist_h, hist_w, CV_8UC3, cv::Scalar( 0,0,0) );
+    cv::normalize(eq_hist, eq_hist, 0, eq_histImage.rows, cv::NORM_MINMAX);
+
+    for (int i = 1; i < bins; i++) {
+        cv::line(eq_histImage,
+                 cv::Point(bin_w * (i - 1), hist_h - cvRound(eq_hist.at<float>(i - 1))),
+                 cv::Point(bin_w * i, hist_h - cvRound(eq_hist.at<float>(i))),
+                 cv::Scalar(255, 255, 255), 2, 8, 0);
+    }
+
     cv::namedWindow("Grayscale original image", cv::WINDOW_NORMAL);
     cv::imshow("Grayscale original image", img_gray);
 
+    cv::namedWindow("Grayscale equalized image", cv::WINDOW_NORMAL);
+    cv::imshow("Grayscale equalized image", img_eq);
+
     cv::namedWindow("Garden histogram", cv::WINDOW_AUTOSIZE);
     cv::imshow("Garden histogram", histImage);
+
+    cv::namedWindow("Garden equalized histogram ", cv::WINDOW_AUTOSIZE);
+    cv::imshow("Garden equalized histogram", eq_histImage);
     
     cv::waitKey(0);
 
