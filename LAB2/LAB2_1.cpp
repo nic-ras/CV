@@ -4,7 +4,7 @@
 int main()
 {
 
-    cv::Mat img = cv::imread("/Desktop/CV/LAB2/Garden.jpg");
+    cv::Mat img = cv::imread("/home/roaming/rasenic69592/Desktop/CV/LAB2/Garden.jpg");
 
     if(img.empty())
     {

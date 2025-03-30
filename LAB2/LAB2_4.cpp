@@ -19,7 +19,6 @@ int main()
     cv::namedWindow("Grayscale original image", cv::WINDOW_NORMAL);
     cv::imshow("Grayscale original image", img_gray);
 
-
     cv::namedWindow("Gaussian filter", cv::WINDOW_NORMAL);
     cv::imshow("Gaussian filter", gau_img);
     
