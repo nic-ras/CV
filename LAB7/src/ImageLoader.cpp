@@ -2,15 +2,15 @@
 #include <opencv2/core/utils/filesystem.hpp>
 #include <iostream>
 
-std::vector<std::string> getImagePathsFromPattern(const std::string& pattern) {
-    std::vector<cv::String> cvPaths;
+std::vector<cv::String> getImagePathsFromPattern(const cv::String& pattern) {
+    const std::vector<cv::String> cvPaths;
     cv::utils::fs::glob(pattern, cvPaths, false);
 
-    std::vector<std::string> paths(cvPaths.begin(), cvPaths.end());
+    std::vector<cv::String> paths(cvPaths.begin(), cvPaths.end());
     return paths;
 }
 
-std::vector<cv::Mat> loadImages(const std::vector<std::string>& imagePaths) {
+std::vector<cv::Mat> loadImages(const std::vector<cv::String>& imagePaths) {
     std::vector<cv::Mat> images;
     for (const auto& path : imagePaths) {
         cv::Mat img = cv::imread(path);
