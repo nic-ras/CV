@@ -1,10 +1,11 @@
 #include "ImageLoader.h"
+#include <opencv2/core.hpp>
 #include <opencv2/core/utils/filesystem.hpp>
 #include <iostream>
 
-std::vector<cv::String> getImagePathsFromPattern(const cv::String& pattern) {
-    const std::vector<cv::String> cvPaths;
-    cv::utils::fs::glob(pattern, cvPaths, false);
+std::vector<cv::String> getImagePathsFromPattern(const cv::String& directory, const cv::String& pattern) {
+    std::vector<cv::String> cvPaths;
+    cv::utils::fs::glob(directory, pattern, cvPaths, false);
 
     std::vector<cv::String> paths(cvPaths.begin(), cvPaths.end());
     return paths;

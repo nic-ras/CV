@@ -3,9 +3,10 @@
 
 #include <vector>
 #include <string>
+#include <opencv2/core.hpp>
 #include <opencv2/opencv.hpp>
 
-std::vector<std::string> getImagePathsFromPattern(const std::string& pattern);
-std::vector<cv::Mat> loadImages(const std::vector<std::string>& imagePaths);
+std::vector<cv::String> getImagePathsFromPattern(const cv::String& directory, const cv::String& pattern);
+std::vector<cv::Mat> loadImages(const std::vector<cv::String>& imagePaths);
 
 #endif // IMAGE_LOADER_H
