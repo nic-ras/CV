@@ -10,6 +10,10 @@ add_executable(ImageStitchingProject
     src/main.cpp
     src/ImageLoader.cpp
     src/panoramic_utils.cpp 
+    src/CylindricalProjection.cpp
+    src/MatchFeatures.cpp
+    src/RefineMatches.cpp
+    src/FindTranslation.cpp
 )
 
 target_link_libraries(ImageStitchingProject ${OpenCV_LIBS})
