@@ -15,15 +15,15 @@ This project simulates the behavior of a real scanner by processing an image of 
 
 ### 3. Process the Document Image
 
-#### 3.1 Enhance Visibility
+#### 3.1 Geometric Transformation
+- Compute a planar perspective transformation matrix.
+- Warp the image so that the document is displayed with proportions corresponding to an A4 sheet (210 mm × 297 mm).
+  
+#### 3.2 Enhance Visibility
 - Improve the readability of the document by applying techniques such as:
   - Contrast enhancement
   - Binarization (e.g., Otsu or adaptive thresholding)
   - Denoising filters
-
-#### 3.2 Geometric Transformation
-- Compute a planar perspective transformation matrix.
-- Warp the image so that the document is displayed with proportions corresponding to an A4 sheet (210 mm × 297 mm).
 
 ### 4. Evaluate Performance
 - **Corner Detection Accuracy**: Measure the Euclidean distance between the predicted and ground truth corners.
