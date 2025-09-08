@@ -42,6 +42,12 @@
         "streambuf": "cpp",
         "tuple": "cpp",
         "typeinfo": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "__hash_table": "cpp",
+        "__node_handle": "cpp",
+        "__split_buffer": "cpp",
+        "execution": "cpp",
+        "variant": "cpp",
+        "memory": "cpp"
     }
 }
