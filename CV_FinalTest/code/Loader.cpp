@@ -1,6 +1,8 @@
-#include "ImageLoader.h"
+#include "Loader.h"
 #include <opencv2/core.hpp>
 #include <opencv2/core/utils/filesystem.hpp>
+#include <opencv2/imgcodecs.hpp>
+#include <fstream>
 #include <iostream>
 
 void loadDataset(const cv::String& imageDir,
@@ -14,7 +16,6 @@ void loadDataset(const cv::String& imageDir,
     cv::utils::fs::glob(imageDir, pattern, cvPaths, false);
 
     std::vector<cv::String> paths(cvPaths.begin(), cvPaths.end());
-    std::sort(paths.begin(), paths.end());
 
     // 2. Load Images from the paths
     for (const auto& path : paths) {
@@ -24,6 +25,43 @@ void loadDataset(const cv::String& imageDir,
         } else {
             images.push_back(img);
         }
+    }
+
+    // 3. Load coordinates from the txt file
+    std::ifstream infile(coordFile);
+    if (!infile.is_open()) {
+        std::cerr << "Could not open file: " << coordFile << std::endl;
+        return;
+    }
+
+    std::string line;
+    while (std::getline(infile, line)) {
+        if (line.empty()) continue;
+
+        size_t pos = line.find(':');
+        if (pos == std::string::npos) continue;
+
+        std::string rest = line.substr(pos + 1);
+        std::vector<cv::Point2f> rowPoints;
+        size_t start = 0;
+
+        while ((start = rest.find('"', start)) != std::string::npos) {
+            size_t end = rest.find('"', start + 1);
+            if (end == std::string::npos) break;
+
+            std::string pair = rest.substr(start + 1, end - start - 1); // "x y"
+            std::stringstream ss(pair);
+            float x, y;
+            ss >> x >> y;
+            rowPoints.emplace_back(x, y);
+
+            start = end + 1;
+        }
+
+        if (!rowPoints.empty())
+            coords.push_back(rowPoints);
+        else
+            std::cerr << "Errore parsing riga: " << line << std::endl;
     }
 
 }
