@@ -1,4 +1,5 @@
 #include "Loader.h"
+#include "Projection.h"
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include <iostream>
@@ -30,17 +31,19 @@ int main() {
 
     // Stampa tutte le coordinate lette
     for (size_t i = 0; i < coords.size(); ++i) {
-        std::cout << "Riga " << i+1 << " coordinate: ";
+        std::cout << "Riga " << i << " coordinate: ";
         for (auto& p : coords[i]) {
             std::cout << "(" << p.x << "," << p.y << ") ";
         }
         std::cout << std::endl;
     }
 
-    float scale = 0.3f; // ridimensionamento per la visualizzazione
+    // Stampa l'immagine originale e la trasposta 
+    std::vector<cv::Mat> results = projectedImages(images, coords);
 
-    // Disegna i punti sulle immagini
-    for (size_t i = 0; i < images.size(); ++i) {
+    for (size_t i = 0; i < results.size(); i++) {
+        // ridimensiono l'originale alla stessa dimensione della trasformata
+        float scale = 0.1f;
         cv::Mat img = images[i].clone();
         cv::Mat displayImg;
         cv::resize(img, displayImg, cv::Size(), scale, scale);
@@ -51,12 +54,30 @@ int main() {
             cv::circle(displayImg, cv::Point2f(p.x * scale, p.y * scale), 5, cv::Scalar(0,0,255), -1);
         }
 
-        std::string winName = "Image " + std::to_string(i+1);
-        cv::namedWindow(winName, cv::WINDOW_AUTOSIZE);
-        cv::imshow(winName, displayImg);
+        cv::Mat resizedOriginal;
+        cv::resize(displayImg, resizedOriginal, results[i].size());
+
+
+        // creo immagine affiancata
+        cv::Mat sideBySide(resizedOriginal.rows, resizedOriginal.cols * 2, resizedOriginal.type());
+        resizedOriginal.copyTo(sideBySide(cv::Rect(0, 0, resizedOriginal.cols, resizedOriginal.rows)));
+        results[i].copyTo(sideBySide(cv::Rect(resizedOriginal.cols, 0, results[i].cols, results[i].rows)));
+
+        // Ridimensiono l'immagine affiancata per la finestra (es. 30% della dimensione reale)
+        
+        cv::Mat display;
+        cv::resize(sideBySide, display, cv::Size(), scale, scale);
+
+        // mostro a video
+        std::string winName = "Originale + Trasformata " + std::to_string(i);
+        cv::imshow(winName, display);
         cv::waitKey(0);
         cv::destroyWindow(winName);
-    }
+
+        // salvo su file (originale dimensione reale)
+        std::string outName = "side_by_side_" + std::to_string(i) + ".jpg";
+        cv::imwrite(outName, sideBySide);
+}
 
     return 0;
 }
