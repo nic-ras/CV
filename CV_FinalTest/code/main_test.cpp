@@ -43,7 +43,7 @@ int main() {
 
     for (size_t i = 0; i < results.size(); i++) {
         // ridimensiono l'originale alla stessa dimensione della trasformata
-        float scale = 0.1f;
+        float scale = 0.2f;
         cv::Mat img = images[i].clone();
         cv::Mat displayImg;
         cv::resize(img, displayImg, cv::Size(), scale, scale);
