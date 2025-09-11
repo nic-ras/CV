@@ -64,7 +64,6 @@ int main() {
         results[i].copyTo(sideBySide(cv::Rect(resizedOriginal.cols, 0, results[i].cols, results[i].rows)));
 
         // Ridimensiono l'immagine affiancata per la finestra (es. 30% della dimensione reale)
-        
         cv::Mat display;
         cv::resize(sideBySide, display, cv::Size(), scale, scale);
 
@@ -75,7 +74,10 @@ int main() {
         cv::destroyWindow(winName);
 
         // salvo su file (originale dimensione reale)
-        std::string outName = "side_by_side_" + std::to_string(i) + ".jpg";
+        std::string outputDir = "../results/";
+        cv::utils::fs::createDirectories(outputDir);
+
+        std::string outName = outputDir + "side_by_side_" + std::to_string(i) + ".jpg";
         cv::imwrite(outName, sideBySide);
 }
 
