@@ -26,15 +26,8 @@ std::vector<cv::Mat> projectedImages(
             continue;
         }
 
-        std::vector<cv::Point2f> orderedPoints = {
-            coords[i][0], // TL
-            coords[i][1], // TR
-            coords[i][3], // BR
-            coords[i][2]  // BL
-        };
-
         // Calcolo l'omografia
-        cv::Mat H = cv::findHomography(orderedPoints, dstPoints);
+        cv::Mat H = cv::findHomography(coords[i], dstPoints);
 
         // Applico la trasformazione prospettica
         cv::Mat warped;

@@ -1,8 +1,0 @@
-In file included from main_test.cpp:2:
-Projection.h:9:29: warning: inline function 'std::vector<cv::Mat> projectedImages(const std::vector<cv::Mat>&, const std::vector<std::vector<cv::Point_<float> > >&, int, int)' used but never defined
-    9 | inline std::vector<cv::Mat> projectedImages(
-      |                             ^~~~~~~~~~~~~~~
-/usr/bin/ld: /tmp/ccRJq7Bo.o: in function `main':
-main_test.cpp:(.text+0x472): undefined reference to `projectedImages(std::vector<cv::Mat, std::allocator<cv::Mat> > const&, std::vector<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > >, std::allocator<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > > > const&, int, int)'
-collect2: error: ld returned 1 exit status
-
