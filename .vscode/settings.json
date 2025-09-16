@@ -48,6 +48,8 @@
         "__split_buffer": "cpp",
         "execution": "cpp",
         "variant": "cpp",
-        "memory": "cpp"
+        "memory": "cpp",
+        "__tree": "cpp",
+        "map": "cpp"
     }
 }

@@ -12,7 +12,7 @@ std::vector<cv::Mat> projectedImages(
 ) {
     std::vector<cv::Mat> warpedImages;
 
-    // Definisco i punti target di un foglio A4
+    // A4 sheet
     std::vector<cv::Point2f> dstPoints = {
         {0, 0},
         {static_cast<float>(width - 1), 0},
@@ -22,14 +22,14 @@ std::vector<cv::Mat> projectedImages(
 
     for (size_t i = 0; i < images.size(); i++) {
         if (coords[i].size() != 4) {
-            std::cerr << "Errore: immagine " << i << " non ha 4 punti validi!\n";
+            std::cerr << "Error: image " << i << " he doesn't have 4 valid points!" << std::endl;
             continue;
         }
 
-        // Calcolo l'omografia
+        // Calculate the homography
         cv::Mat H = cv::findHomography(coords[i], dstPoints);
 
-        // Applico la trasformazione prospettica
+        // Apply the perspective transformation
         cv::Mat warped;
         cv::warpPerspective(images[i], warped, H, cv::Size(width, height));
 

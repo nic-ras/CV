@@ -10,39 +10,65 @@ int main() {
     std::vector<std::vector<cv::Point2f>> coords;
 
     cv::String imgDir = "../dataset/Input/img/";
-    cv::String pattern = "*.png"; // legge PNG
+    cv::String pattern = "*.png"; 
     cv::String coordFile = "../dataset/Output/coord/coordinates.txt";
 
-    // Carica immagini e coordinate
+    // Upload images and coordinates
     loadDataset(imgDir, pattern, coordFile, images, coords);
 
-    // Stampa la quantità di immagini e righe coordinate
-    std::cout << "Numero di immagini caricate: " << images.size() << std::endl;
-    std::cout << "Numero di righe di coordinate lette: " << coords.size() << std::endl;
+    // Print the amount of coordinated images and lines
+    std::cout << "Number of images uploaded: " << images.size() << std::endl;
+    std::cout << "Number of coordinate rows read: " << coords.size() << std::endl;
 
-    // MOSTRA L'ORDINE DEI FILE
+    // Show the order of uploaded files
     std::vector<cv::String> cvPaths;
     cv::utils::fs::glob(imgDir, pattern, cvPaths, false);
 
-    std::cout << "\nOrdine dei file caricati:\n";
+    std::cout << "Order of uploaded files: " << std::endl;;
     for (size_t i = 0; i < cvPaths.size(); ++i) {
         std::cout << i+1 << ": " << cvPaths[i] << std::endl;
     }
 
-    // Stampa tutte le coordinate lette
+    // Print all read coordinates
     for (size_t i = 0; i < coords.size(); ++i) {
-        std::cout << "Riga " << i << " coordinate: ";
+        std::cout << "Row " << i << " coordinates: ";
         for (auto& p : coords[i]) {
             std::cout << "(" << p.x << "," << p.y << ") ";
         }
         std::cout << std::endl;
     }
 
-    // Stampa l'immagine originale e la trasposta 
-    std::vector<cv::Mat> results = projectedImages(images, coords);
+    // Identification of the vertices of the document
 
+
+    // Print the original image and the identified document
+    std::vector<cv::Mat> results = projectedImages(images, coords); // SOSTITUIRE COORDS CON I VERTICI TROVATI
+
+    // Enhancement of the detected image
+    std::vector<cv::Mat> doc;
     for (size_t i = 0; i < results.size(); i++) {
-        // ridimensiono l'originale alla stessa dimensione della trasformata
+    cv::Mat gray, equalized, sharpened;
+
+    // 1) Grayscale
+    cv::cvtColor(results[i], gray, cv::COLOR_BGR2GRAY);
+
+    // 2) Equalize the Histogram
+    cv::equalizeHist(gray, equalized);
+
+    // 3) Sharpen 
+    cv::Mat kernel = (cv::Mat_<float>(3,3) <<
+        0, -1,  0,
+       -1,  5, -1,
+        0, -1,  0);
+    cv::filter2D(equalized, sharpened, -1, kernel);
+
+    doc.push_back(sharpened);
+    }
+
+    for (size_t i = 0; i < doc.size(); i++) {
+
+        // Resize the original to the same size as the transformed image
+        // ALTRIMENTI UN RESIZE CON DIMENSIONI FISSE E POI FINESTRA MODIFICABILE COME FA RICCARDO
         float scale = 0.2f;
         cv::Mat img = images[i].clone();
         cv::Mat displayImg;
@@ -55,31 +81,29 @@ int main() {
         }
 
         cv::Mat resizedOriginal;
-        cv::resize(displayImg, resizedOriginal, results[i].size());
+        cv::resize(displayImg, resizedOriginal, doc[i].size());
 
-
-        // creo immagine affiancata
+        // Side by side image
         cv::Mat sideBySide(resizedOriginal.rows, resizedOriginal.cols * 2, resizedOriginal.type());
         resizedOriginal.copyTo(sideBySide(cv::Rect(0, 0, resizedOriginal.cols, resizedOriginal.rows)));
-        results[i].copyTo(sideBySide(cv::Rect(resizedOriginal.cols, 0, results[i].cols, results[i].rows)));
+        results[i].copyTo(sideBySide(cv::Rect(resizedOriginal.cols, 0, doc[i].cols, doc[i].rows)));
 
-        // Ridimensiono l'immagine affiancata per la finestra (es. 30% della dimensione reale)
         cv::Mat display;
         cv::resize(sideBySide, display, cv::Size(), scale, scale);
 
-        // mostro a video
-        std::string winName = "Originale + Trasformata " + std::to_string(i);
+        // Show final output
+        std::string winName = "Original + Output " + std::to_string(i);
         cv::imshow(winName, display);
         cv::waitKey(0);
         cv::destroyWindow(winName);
 
-        // salvo su file (originale dimensione reale)
+        // Save the files
         std::string outputDir = "../results/";
         cv::utils::fs::createDirectories(outputDir);
 
-        std::string outName = outputDir + "side_by_side_" + std::to_string(i) + ".jpg";
+        std::string outName = outputDir + "side_by_side_" + std::to_string(i) + ".png";
         cv::imwrite(outName, sideBySide);
-}
+    }
 
     return 0;
 }
