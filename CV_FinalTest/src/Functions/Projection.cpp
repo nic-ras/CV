@@ -1,3 +1,10 @@
+/************************************************************
+ *  Project : Document Scanner 
+ *  File    : Projection.cpp
+ *  Author  : Nicolò Rasera
+ *  Course  : Computer Vision 
+ *  Teacher : Stefano Ghidoni
+ ************************************************************/
 #include "Projection.h"
 #include <opencv2/core.hpp>
 #include <opencv2/calib3d.hpp>

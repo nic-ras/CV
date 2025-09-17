@@ -1,3 +1,10 @@
+/************************************************************
+ *  Project : Document Scanner 
+ *  File    : DetectArea.h
+ *  Author  : Riccardo Grosso
+ *  Course  : Computer Vision 
+ *  Teacher : Stefano Ghidoni
+ ************************************************************/
 #ifndef DOCUMENT_DETECTOR_H
 #define DOCUMENT_DETECTOR_H
 
@@ -12,7 +19,6 @@ typedef struct
     int points;
     std::vector<cv::Point> point_vec;
 } result;
-
 
 // Draw Hough lines on a copy of the provided image.
 cv::Mat drawHoughLines(const cv::Mat& image, std::vector<cv::Vec3f> lines, cv::Scalar color);

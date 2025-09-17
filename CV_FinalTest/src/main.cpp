@@ -1,3 +1,10 @@
+/************************************************************
+ *  Project : Document Scanner 
+ *  File    : main.cpp
+ *  Author  : Nicolò Rasera
+ *  Course  : Computer Vision 
+ *  Teacher : Stefano Ghidoni
+ ************************************************************/
 #include "DetectArea.h"
 #include "Loader.h"
 #include "Projection.h"
@@ -73,19 +80,28 @@ int main() {
     // Enhancement of the detected image
     std::vector<cv::Mat> doc;
     for (size_t i = 0; i < results.size(); i++) {
-        cv::Mat gray, sharpened;
+        cv::Mat gray, filtered, edges, highlighted;
 
         // 1) Grayscale
         cv::cvtColor(results[i], gray, cv::COLOR_BGR2GRAY);
 
-        // 2) Sharpening 
-        cv::Mat kernel = (cv::Mat_<float>(3,3) <<
-            0, -1,  0,
-            -1,  5, -1,
-            0, -1,  0);
-        cv::filter2D(gray, sharpened, -1, kernel);
+        // 2) Bilateral Filter
+        cv::bilateralFilter(gray, filtered, 3, 75, 75);
 
-        doc.push_back(sharpened);
+        // 3) Sobel
+        cv::Mat grad_x, grad_y, abs_grad_x, abs_grad_y;
+        cv::Sobel(filtered, grad_x, CV_16S, 1, 0, 3);
+        cv::Sobel(filtered, grad_y, CV_16S, 0, 1, 3);
+        cv::convertScaleAbs(grad_x, abs_grad_x);
+        cv::convertScaleAbs(grad_y, abs_grad_y);
+        cv::addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, edges);
+
+        cv::Mat edges_scaled;
+        edges.convertTo(edges_scaled, CV_8U, 50.0/255.0);
+
+        cv::subtract(filtered, edges_scaled, highlighted);
+
+        doc.push_back(highlighted);
     }
 
     auto end = std::chrono::high_resolution_clock::now();
@@ -94,7 +110,6 @@ int main() {
     for (size_t i = 0; i < doc.size(); i++) {
 
         // Resize the original to the same size as the transformed image
-        // ALTRIMENTI UN RESIZE CON DIMENSIONI FISSE E POI FINESTRA MODIFICABILE COME FA RICCARDO
         float scale = 0.2f;
         cv::Mat img = images[i].clone();
         cv::Mat resizedOriginal;
@@ -121,7 +136,7 @@ int main() {
 
         // Show final output
         std::string winName = "Original + Output " + std::to_string(i);
-        cv::namedWindow(winName, WINDOW_NORMAL);
+        cv::namedWindow(winName, cv::WINDOW_NORMAL);
         cv::imshow(winName, display);
         cv::waitKey(0);
         cv::destroyWindow(winName);

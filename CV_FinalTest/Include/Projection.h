@@ -1,3 +1,10 @@
+/************************************************************
+ *  Project : Document Scanner 
+ *  File    : Projection.h
+ *  Author  : Nicolò Rasera
+ *  Course  : Computer Vision 
+ *  Teacher : Stefano Ghidoni
+ ************************************************************/
 #ifndef PROJECTION_H
 #define PROJECTION_H
 

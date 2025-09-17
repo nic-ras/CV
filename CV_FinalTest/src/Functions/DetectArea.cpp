@@ -1,6 +1,10 @@
-/* This program detects area of a document from an image, i.e. it detects the four 
-corners of the doc.*/
-
+/************************************************************
+ *  Project : Document Scanner 
+ *  File    : DetectArea.cpp
+ *  Author  : Riccardo Grosso
+ *  Course  : Computer Vision 
+ *  Teacher : Stefano Ghidoni
+ ************************************************************/
 #include <iostream>
 #include <vector>
 #include <cmath>
@@ -237,7 +241,7 @@ int DetectArea(const cv::Mat& image, std::vector<cv::Point>* coordinates)
     //Returning the 4 corners
     for(i=0; i<corners.size(); i++)
     {
-        coordinates->push_back(corners[i]);     //To be checked
+        coordinates->push_back(corners[i]);     
     }
     if(coordinates->size()!=4)
     {

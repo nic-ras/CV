@@ -1,3 +1,10 @@
+/************************************************************
+ *  Project : Document Scanner 
+ *  File    : Loader.h
+ *  Author  : Nicolò Rasera
+ *  Course  : Computer Vision 
+ *  Teacher : Stefano Ghidoni
+ ************************************************************/
 #ifndef LOADER_H
 #define LOADER_H
 

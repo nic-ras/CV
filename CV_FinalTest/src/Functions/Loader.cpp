@@ -1,3 +1,10 @@
+/************************************************************
+ *  Project : Document Scanner 
+ *  File    : Loader.cpp
+ *  Author  : Nicolò Rasera
+ *  Course  : Computer Vision 
+ *  Teacher : Stefano Ghidoni
+ ************************************************************/
 #include "Loader.h"
 #include <opencv2/core.hpp>
 #include <opencv2/core/utils/filesystem.hpp>
@@ -49,7 +56,7 @@ void loadDataset(const cv::String& imageDir,
             size_t end = rest.find('"', start + 1);
             if (end == std::string::npos) break;
 
-            std::string pair = rest.substr(start + 1, end - start - 1); // "x y"
+            std::string pair = rest.substr(start + 1, end - start - 1); 
             std::stringstream ss(pair);
             float x, y;
             ss >> x >> y;
