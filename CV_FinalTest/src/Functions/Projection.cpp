@@ -6,7 +6,7 @@
 
 std::vector<cv::Mat> projectedImages(
     const std::vector<cv::Mat>& images,
-    const std::vector<std::vector<cv::Point2f>>& coords,
+    const std::vector<std::vector<cv::Point>>& coords,
     int width, 
     int height 
 ) {

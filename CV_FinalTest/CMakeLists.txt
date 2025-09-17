@@ -8,8 +8,9 @@ find_package(OpenCV REQUIRED)
 
 add_executable(DocumentScanner
     src/main.cpp
-    src/Functions/ImageLoader.cpp
-    src/Functions/create3DChessboardCorners.cpp
+    src/Functions/DetectArea.cpp
+    src/Functions/Loader.cpp
+    src/Functions/Projection.cpp
 )
 
 target_link_libraries(DocumentScanner ${OpenCV_LIBS})

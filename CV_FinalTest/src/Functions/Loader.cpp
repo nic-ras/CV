@@ -9,7 +9,7 @@ void loadDataset(const cv::String& imageDir,
                  const cv::String& pattern,
                  const cv::String& coordFile,
                  std::vector<cv::Mat>& images,
-                 std::vector<std::vector<cv::Point2f>>& coords)
+                 std::vector<std::vector<cv::Point>>& coords)
 {
     // 1. Get the image paths
     std::vector<cv::String> cvPaths;
@@ -42,7 +42,7 @@ void loadDataset(const cv::String& imageDir,
         if (pos == std::string::npos) continue;
 
         std::string rest = line.substr(pos + 1);
-        std::vector<cv::Point2f> rowPoints;
+        std::vector<cv::Point> rowPoints;
         size_t start = 0;
 
         while ((start = rest.find('"', start)) != std::string::npos) {
