@@ -1,0 +1,3 @@
+/home/roaming/rasenic69592/Desktop/CV/CV_FinalTest/build/CMakeFiles/DocumentScanner.dir
+/home/roaming/rasenic69592/Desktop/CV/CV_FinalTest/build/CMakeFiles/edit_cache.dir
+/home/roaming/rasenic69592/Desktop/CV/CV_FinalTest/build/CMakeFiles/rebuild_cache.dir

@@ -67,7 +67,8 @@ int DetectArea(const cv::Mat& image, std::vector<cv::Point>* coordinates)
         //Setting Canny thresholds
         thrCanny1 = static_cast<int>(thrCanny1*canny_increment1);
         thrCanny2 = static_cast<int>(thrCanny2*canny_increment2);
-        //Accelerating the converge speed for too low thresholds
+
+        //Accelerating the convergence speed for too low thresholds
         if((previous_res.points>10000 || to_continue==1)  && trial>0)
         {
             int increment_speed = 2-trial;

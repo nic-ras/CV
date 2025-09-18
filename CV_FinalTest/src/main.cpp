@@ -31,7 +31,7 @@ int main() {
 
     std::cout << "##########" << std::endl;
 
-    // Print the amaount of coordinated images and lines
+    // Print the number of images and coordinates
     std::cout << "Number of images uploaded: " << images.size() << std::endl;
     std::cout << "Number of coordinate rows read: " << coords.size() << std::endl;
 
@@ -118,6 +118,7 @@ int main() {
         double scaleX = static_cast<double>(resizedOriginal.cols) / images[i].cols;
         double scaleY = static_cast<double>(resizedOriginal.rows) / images[i].rows;
 
+        // Point out the coordinates
         for (auto& p : FinalCoords[i]) {
             cv::Point2f scaledPt(p.x * scaleX, p.y * scaleY);
             cv::circle(resizedOriginal, scaledPt, 15, cv::Scalar(0,0,0), -1);
